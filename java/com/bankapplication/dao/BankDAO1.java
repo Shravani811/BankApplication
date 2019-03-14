@@ -11,9 +11,11 @@ public class BankDAO1 implements IBankDAO1{
 	Details details = new Details();
 	DataConnection d = new DataConnection();
 	Connection con = d.connect();
-	public Details registration(Details details) {
+	int accountNo=0;
+	//registeration of bank customers
+	public int registration(Details details) {
 		try {
-		String stmt="insert into customer_details(firstName,lastName,emailID,password,pancardNo,,aadharNo,address, mobileNo,balance) values(?,?,?,?,?,?,?,?,?)";
+		String stmt="insert into customer values(accountno_seq.NEXTVAL,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pst = con.prepareStatement(stmt);
 		
 		 pst.setString(1, details.getFirstName());
@@ -32,24 +34,52 @@ public class BankDAO1 implements IBankDAO1{
 		 
 		 pst.setString(8, details.getMobileNo());
 		 
-		 pst.setInt(9, details.getBalance());
+		 pst.setInt(9,details.getBalance());
 		 
-		ResultSet rs = pst.executeQuery();
-		
-		 
-		 
+		int i = pst.executeUpdate();
+		//generating account number
+		if(i==1) {
+			PreparedStatement statement=con.prepareStatement("select * from customer where first_name=?");
+			
+			statement.setString(1, details.getFirstName());
+			
+			ResultSet resultSet=statement.executeQuery();
+			
+			while(resultSet.next())
+			{
+				
+				accountNo=resultSet.getInt(1);
+			}
+			
 		}
-		catch(Exception e) {
+		
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		 return details;
+		
+		
+		 return accountNo;
 	}
 		
 
-
-	public Details login(String accountNo) {
-		String stmt = "";
+	//login of bank customers with account number and password
+	public Details login(int accountNo,String password) {
+		try {
+		PreparedStatement st=con.prepareStatement("select * from customer where account_no=?");
+			st.setInt(1, accountNo);
+			
+		ResultSet rs = st.executeQuery();
+		
+		while(rs.next()) {
+			
+		if(password.contentEquals(rs.getString(5))) {
+			details.setAccountNo(accountNo);
+		}
+		}
+		}catch(Exception e) {
+			
+			}
 		return details;
 	}
 

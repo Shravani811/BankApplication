@@ -1,10 +1,11 @@
 package com.bankapplication.beans;
 
 public class Details {
+	//encapsulation of data
 	private String firstName,lastName,emailID,password,address;
-	private String mobileNo,aadharNo,pancardNo,accountNo;
-	private String transactionID,fromAccount,toAccount;
-	private int balance,amountTransferred;
+	private String mobileNo,aadharNo,pancardNo;
+	private String transactionID;
+	private int balance,amountTransferred,accountNo,fromAccount,toAccount;
 	public String getFirstName() {
 		return firstName;
 	}
@@ -53,10 +54,10 @@ public class Details {
 	public void setPancardNo(String pancardNo) {
 		this.pancardNo = pancardNo;
 	}
-	public String getAccountNo() {
+	public int getAccountNo() {
 		return accountNo;
 	}
-	public void setAccountNo(String accountNo) {
+	public void setAccountNo(int accountNo) {
 		this.accountNo = accountNo;
 	}
 	public String getTransactionID() {
@@ -71,16 +72,16 @@ public class Details {
 	public void setAmountTransferred(int amountTransferred) {
 		this.amountTransferred = amountTransferred;
 	}
-	public String getFromAccount() {
+	public int getFromAccount() {
 		return fromAccount;
 	}
-	public void setFromAccount(String fromAccount) {
+	public void setFromAccount(int fromAccount) {
 		this.fromAccount = fromAccount;
 	}
-	public String getToAccount() {
+	public int getToAccount() {
 		return toAccount;
 	}
-	public void setToAccount(String toAccount) {
+	public void setToAccount(int toAccount) {
 		this.toAccount = toAccount;
 	}
 	public int getBalance() {

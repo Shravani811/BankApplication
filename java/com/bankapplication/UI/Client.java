@@ -4,11 +4,13 @@ import java.util.Scanner;
 
 import com.bankapplication.beans.Details;
 import com.bankapplication.service.BankService1;
+import com.bankapplication.service.BankService2;
 
 public class Client {
 	public void bankOperation() {
 		Details details = new Details();
 		BankService1 bs = new BankService1();
+		BankService2 bs2 = new BankService2();
 		Scanner input = new Scanner(System.in);
 		System.out.println("Please enter your choice 1.Registration 2.Login");
 		int choice = input.nextInt();
@@ -30,20 +32,53 @@ public class Client {
 			details.setAddress(input.next());
 			System.out.println("enter your mobile number");
 			details.setMobileNo(input.next());
-			System.out.println("enter your balance");
-			details.setBalance(input.nextInt());
-			details = bs.registration();
-			System.out.println("you are successfully registered your account number is:"+details.getAccountNo());
+
+			details.setBalance(0);
+			int accNo = bs.registration(details);
+			if(accNo!=0)
+				System.out.println("you are successfully registered your account number is:"+accNo);
+			else
+			    System.out.println("not registered");
 			
 		case 2:
 			System.out.println("enter your account number");
-			details.setAccountNo(input.next());
+			details.setAccountNo(input.nextInt());
+			int accountNo= details.getAccountNo();
+			
 			System.out.println("enter password");
 			details.setPassword(input.next());
-			String accountNo = details.getAccountNo();
-			details = bs.login(accountNo);
-			System.out.println("login successfully");
+			String password=details.getPassword();
 			
+			details = bs.login(accountNo,password);
+			if(accountNo!=0)
+			System.out.println("login done successfully,your login account number is:"+details.getAccountNo());
+			
+			System.out.println("enter your choice\n 1.deposit \n 2.withdraw \n 3.transfer\n 4.showBalance \n 5.exit");
+			int ch = input.nextInt();
+			switch(ch) {
+			case 1:
+				System.out.println("enter amount to deposit");
+				int depositAmount = input.nextInt();
+				int balance = bs2.deposit(depositAmount, accountNo);
+				System.out.println("total balance after deposit is:"+balance);
+				break;
+			case 2:
+				System.out.println("enter amount to be withdrawn");
+				int withdrawAmount = input.nextInt();
+				int bal = bs2.withdraw(withdrawAmount, accountNo);
+				System.out.println("total balance after withdraw is:"+bal);
+				break;
+			case 3:
+				break;
+			case 4:
+				int totalBalance = bs2.showBalance(accountNo);
+				System.out.println("your balance is"+totalBalance);
+				break;
+			case 5:
+				System.exit(0);
+			
+			}
+			break;
 		}
 		
 	}
