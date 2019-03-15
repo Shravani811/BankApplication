@@ -11,6 +11,7 @@ public class BankService1 implements IBankService1{
 
 	
 	public int registration(Details details) {
+		//validation of mobile number
 		if(details.getMobileNo().length() !=10) {
 			try {
 			throw new InvalidMobileNoException();
@@ -19,7 +20,7 @@ public class BankService1 implements IBankService1{
 		}
 		details=null;	
 		}
-	
+		//validation of aadhar number
 		if(details.getAadharNo().length() !=12) {
 			try {
 				throw new InvalidAadharException();

@@ -3,6 +3,7 @@ package com.bankapplication.UI;
 import java.util.Scanner;
 
 import com.bankapplication.beans.Details;
+import com.bankapplication.exception.InsufficientBalanceException;
 import com.bankapplication.service.BankService1;
 import com.bankapplication.service.BankService2;
 
@@ -51,7 +52,7 @@ public class Client {
 			
 			details = bs.login(accountNo,password);
 			if(accountNo!=0)
-			System.out.println("login done successfully,your login account number is:"+details.getAccountNo());
+			System.out.println("login done successfully,your login account number is:"+accountNo);
 			
 			System.out.println("enter your choice\n 1.deposit \n 2.withdraw \n 3.transfer\n 4.showBalance \n 5.exit");
 			int ch = input.nextInt();
@@ -66,9 +67,33 @@ public class Client {
 				System.out.println("enter amount to be withdrawn");
 				int withdrawAmount = input.nextInt();
 				int bal = bs2.withdraw(withdrawAmount, accountNo);
+				if(bal!=0)
 				System.out.println("total balance after withdraw is:"+bal);
+				else {
+					try {
+					throw new InsufficientBalanceException();
+					}catch(Exception e) {
+						
+					}
+				}
 				break;
 			case 3:
+				System.out.println("enter amount to be transferred");
+				details.setAmountTransferred(input.nextInt());
+				int amountTransferred = details.getAmountTransferred();
+				
+				System.out.println("enter account number to which money should be transferred");
+				details.setToAccount(input.nextInt());
+				int toAccount = details.getToAccount();
+				
+				details = bs2.transfer(amountTransferred, accountNo, toAccount);
+				
+						System.out.println("transaction id is :"+details.getTransactionID());
+						System.out.println("from account number:"+accountNo);
+						System.out.println("to account number  is:"+details.getToAccount());
+						System.out.println("amount after transferring is:"+amountTransferred);
+						
+						
 				break;
 			case 4:
 				int totalBalance = bs2.showBalance(accountNo);

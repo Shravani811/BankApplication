@@ -13,19 +13,16 @@ public class BankService2 implements IBankService2{
 	}
 
 	public int withdraw(int withdrawAmount,int accountNo) {
-		//checking if withdraw amount is greater than available balance and throwing an exception
-		if(withdrawAmount>details.getBalance()) {
-			try {
-			throw new InsufficientBalanceException();
-			}catch(Exception e) {
-				
-			}
-			withdrawAmount = 0;
-		}
+		
+		
 		return bankDao2.withdraw(withdrawAmount,accountNo);
 		
+					
+		
+	
 	}
-	public void transfer() {
+	public Details transfer(int amountTransferred,int accountNo,int toAccount) {
+		return bankDao2.transfer(amountTransferred, accountNo, toAccount);
 		
 		
 	}
